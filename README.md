@@ -3,8 +3,18 @@
 
 The Tiny Transit Hackathon is a 3 hour event focused on learning about
 public transit, and exploring open source transit data. It will take
-place on Tues, Feb 4th of Posit’s annual company work week. Any Posit
-folks there (in-person or virtually) are welcome to join!
+place on **Tues, Feb 4th** of Posit’s annual company work week. Any
+Posit folks there (in-person or virtually) are welcome to join!
+
+Here are some key details on how it will work:
+
+- **Join slack channel**. we’ll coordinate in the
+  `#2025-workweek-hackathon` channel on Posit’s workspace.
+- **Organize into teams or work alone.**
+- **Present your project**. We’ll set up time the week after for people
+  to present what they did. (If you want, no pressure!). We’ll all be
+  stuck in the same place for workweek, so you can also show off your
+  work informally all week!
 
 ## Public transit data and standards
 
