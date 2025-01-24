@@ -6,9 +6,10 @@ annual company work week. Any Posit folks there (in-person or virtually) are wel
 
 ## Public transit data and standards
 
-* **GTFS schedules**: represent transit schedules, fares, stop locations, and transfer options.
-* **GTFS realtime (RT)**: represent realtime vehicle location and trip updates.
-* **TIDES**: (work in progress) represent vehicle location, passenger count, and fare transaction data.
+* [**GTFS schedules**](https://gtfs.org/documentation/schedule/reference/): represent transit schedules, fares, stop locations, and transfer options.
+* [**GTFS realtime (RT)**](https://gtfs.org/documentation/realtime/reference/): represent realtime vehicle location and trip updates.
+* [**TIDES**](https://github.com/TIDES-transit/TIDES): (work in progress) represent vehicle location, passenger count, and fare transaction data.
+  - We'll have "TIDES-like" automatic vehicle location (AVL) with block and stop data, and automatic passenger counts (APC) data provided by a transit agency.
 
 ## Example reports and dashboards
 
