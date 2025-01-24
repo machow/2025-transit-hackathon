@@ -15,6 +15,10 @@ Here are some key details on how it will work:
 
 ## Public transit data and standards
 
+:::{.callout-important}
+Michael will add links to example data as we get closer to the event.
+:::
+
 * [**GTFS schedules**](https://gtfs.org/documentation/schedule/reference/): represent transit schedules, fares, stop locations, and transfer options.
 * [**GTFS realtime (RT)**](https://gtfs.org/documentation/realtime/reference/): represent realtime vehicle location and trip updates.
 * [**TIDES**](https://github.com/TIDES-transit/TIDES): (work in progress) represent vehicle location, passenger count, and fare transaction data.

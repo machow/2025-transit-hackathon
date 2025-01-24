@@ -18,6 +18,10 @@ Here are some key details on how it will work:
 
 ## Public transit data and standards
 
+> [!IMPORTANT]
+>
+> Michael will add links to example data as we get closer to the event.
+
 - [**GTFS
   schedules**](https://gtfs.org/documentation/schedule/reference/):
   represent transit schedules, fares, stop locations, and transfer
