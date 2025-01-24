@@ -16,7 +16,7 @@ Here are some key details on how it will work:
 ## Public transit data and standards
 
 :::{.callout-important}
-Michael will add links to example data as we get closer to the event.
+Michael will add links to example data as we get closer to the event. See the [Mobility Database](https://mobilitydatabase.org/) for a link to open transit data schedules and realtime feeds.
 :::
 
 * [**GTFS schedules**](https://gtfs.org/documentation/schedule/reference/): represent transit schedules, fares, stop locations, and transfer options.
