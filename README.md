@@ -160,13 +160,13 @@ Reading:
 
 | Project Idea | Description |
 |----|----|
-| GTFS route timetables | Timetables are an incredible use of tables, with a long history. Let’s explore their design with Great Tables (or other tools). |
-| Method for connecting realtime data to stops | GTFS realtime data just says a vehicle’s lattitude and longitude. How can we connect that to scheduled stops? |
-| Shiny dashboard for updating GTFS schedules | For updating routes, trips, and stops, etc.. |
-| Shiny dashboard for mapping realtime vehicle positions | Fixing [this shiny app](https://shiny.posit.co/r/gallery/interactive-visualizations/bus-dashboard/). |
-| Metro Transit travel time and passenger count dashboard | Creating reports and dashboards for mapping vehicle data based on stop segments. |
+| 📰 GTFS route timetables | Timetables are an incredible use of tables, with a long history. Let’s explore their design with Great Tables (or other tools). |
+| 🧩 Method for connecting realtime data to stops | GTFS realtime data just says a vehicle’s lattitude and longitude. How can we connect that to scheduled stops? |
+| ✏️ Shiny dashboard for updating GTFS schedules | For updating routes, trips, and stops, etc.. |
+| 📍 Shiny dashboard for mapping realtime vehicle positions | Fixing [this shiny app](https://shiny.posit.co/r/gallery/interactive-visualizations/bus-dashboard/). |
+| 🚍 Metro Transit travel time and passenger count dashboard | Creating reports and dashboards for mapping vehicle data based on stop segments. |
 
-### GTFS route timetables and trip map
+### 📰 GTFS route timetables and trip map
 
 Have you seen transit timetables? They are a great example of table
 design! Join table design wizard and [Great
@@ -180,7 +180,7 @@ It would be neat to recreate tables like above in Great Tables. For
 bonus we could create a map of the route and stops (similar to
 gtfs-to-html).
 
-### Shiny dashboard for updating GTFS schedules
+### ✏️ Shiny dashboard for updating GTFS schedules
 
 Working on an application to update GTFS schedules is a good way to get
 a feel for its underlying data model of transit networks. It would be
@@ -188,7 +188,7 @@ neat to see what a Shiny app, similar to
 [datatools-ui](https://github.com/ibi-group/datatools-ui) might look
 like.
 
-### Shiny dashboard for mapping realtime vehicle positions
+### 📍 Shiny dashboard for mapping realtime vehicle positions
 
 Uh-oh. Our [bus
 dashboard](https://shiny.posit.co/r/gallery/interactive-visualizations/bus-dashboard/)
@@ -199,7 +199,7 @@ Here’s another example of a bus dashboard:
 
 - https://forum.posit.co/t/dude-wheres-my-bus-2020-shiny-contest-submission/56634
 
-### Methods for connecting realtime data to stops
+### 🧩 Method for connecting realtime data to stops
 
 > [!IMPORTANT]
 >
@@ -214,7 +214,7 @@ Key pieces you could work on are detailed in this issue:
 
 - https://github.com/machow/transit-data-analyses/issues/1
 
-### Metro Transit travel time and passenger count dashboard
+### 🚍 Metro Transit travel time and passenger count dashboard
 
 > [!IMPORTANT]
 >
