@@ -24,6 +24,10 @@ annual company work week. Any Posit folks there (in-person or virtually) are wel
 * [python: gtfs-kit](https://github.com/mrcagney/gtfs_kit)
 * [R: tidytransit](https://github.com/r-transit/tidytransit)
 
+Reading:
+
+* [Reece Martin transit blog](https://reecemartin.ca/table-of-contents/)
+
 
 ## Potential projects: What could you work on?
 
