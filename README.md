@@ -201,9 +201,7 @@ Here’s another example of a bus dashboard:
 
 ### 🧩 Method for connecting realtime data to stops
 
-> [!IMPORTANT]
->
-> Preparing this is a work in progress.
+> ⚠️ Preparing this is a work in progress.
 
 Tiffany Ku at Caltrans is working on connecting realtime vehicle data to
 stops. There is a demo repo here:
@@ -216,9 +214,7 @@ Key pieces you could work on are detailed in this issue:
 
 ### 🚍 Metro Transit travel time and passenger count dashboard
 
-> [!IMPORTANT]
->
-> Preparing this is a work in progress.
+> ⚠️ Preparing this is a work in progress.
 
 We’ll have vehicle location and passenger count data at the hackathon.
 Some potential questions folks could answer are:
