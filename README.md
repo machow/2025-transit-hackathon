@@ -11,6 +11,8 @@ Here are some key details on how it will work:
 - **Join slack channel**. we’ll coordinate in the
   `#2025-workweek-hackathon` channel on Posit’s workspace.
 - **Organize into teams or work alone.**
+- **Choose a project**. We have a list of potential projects in the
+  readme, but feel free to come up with your own.
 - **Present your project**. We’ll set up time the week after for people
   to present what they did. (If you want, no pressure!). We’ll all be
   stuck in the same place for workweek, so you can also show off your
