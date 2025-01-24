@@ -21,6 +21,8 @@ Here are some key details on how it will work:
 > [!IMPORTANT]
 >
 > Michael will add links to example data as we get closer to the event.
+> See the [Mobility Database](https://mobilitydatabase.org/) for a link
+> to open transit data schedules and realtime feeds.
 
 - [**GTFS
   schedules**](https://gtfs.org/documentation/schedule/reference/):
