@@ -32,7 +32,8 @@ Reading:
 ## Potential projects: What could you work on?
 
 * GTFS route timetables and trip map.
-* Methods for connecting realtime data to stops.
+* Method for connecting realtime data to stops.
+* Shiny dashboard for updating GTFS schedules.
 * Metro Transit travel time and passenger count dashboard.
 
 ### GTFS route timetables and trip map.
