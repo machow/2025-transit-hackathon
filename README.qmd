@@ -1,0 +1,145 @@
+---
+title: Posit workweek 2025 Tiny Transit Hackathon
+format: gfm
+---
+
+The Tiny Transit Hackathon is a 3 hour event focused on learning about public transit,
+and exploring open source transit data. It will take place on Tues, Feb 4th of Posit's
+annual company work week. Any Posit folks there (in-person or virtually) are welcome to join!
+
+## Public transit data and standards
+
+* [**GTFS schedules**](https://gtfs.org/documentation/schedule/reference/): represent transit schedules, fares, stop locations, and transfer options.
+* [**GTFS realtime (RT)**](https://gtfs.org/documentation/realtime/reference/): represent realtime vehicle location and trip updates.
+* [**TIDES**](https://github.com/TIDES-transit/TIDES): (work in progress) represent vehicle location, passenger count, and fare transaction data.
+  - We'll have "TIDES-like" automatic vehicle location (AVL) with block and stop data, and automatic passenger counts (APC) data provided by a transit agency.
+
+## Example reports and dashboards
+
+```{python}
+# | echo: false
+# | output: asis
+import htmltools.tags as ht
+
+examples = [
+    {
+        "url": "https://reports.calitp.org/gtfs_schedule/2024/01/208/",
+        "name": "cal-itp monthly GTFS quailty report",
+        "image": "./images/calitp-report.jpg",
+        "description": "Monthly reporting on GTFS schedules and realtime data in California.",
+    },
+    {
+        "url": "https://github.com/BlinkTagInc/gtfs-to-html",
+        "name": "gtfs-to-html",
+        "image": "./images/gtfs-to-html.png",
+        "description": "Generate timetables and maps from GTFS schedules.",
+    },
+    {
+        "url": "https://github.com/ibi-group/datatools-ui",
+        "name": "datatools-ui",
+        "image": "./images/datatools-ui.png",
+        "description": "Application to edit GTFS schedule data.",
+    },
+    {
+        "url": "https://www.transit.land/map",
+        "name": "transitland map",
+        "image": "./images/transitland-map.jpg",
+        "description": "Map of schedule data around the world. Has links to schedule feeds.",
+    },
+    {
+        "url": "https://minitokyo3d.com/",
+        "name": "mini tokyo 3d",
+        "image": "./images/mini-tokyo-3d.jpg",
+        "description": "3D map of Tokyo transit system.",
+    },
+]
+
+
+def make_row(example):
+    return [
+        ht.tr(
+            ht.td(ht.a(example["name"], href=example["url"])),
+            ht.td(example["description"]),
+        ),
+        ht.tr(
+            ht.td(
+                ht.details(ht.summary("preview"), ht.img(src=example["image"])),
+                colspan=2,
+            ),
+        ),
+    ]
+
+
+trs = [make_row(example) for example in examples]
+print(ht.table(ht.thead(ht.tr(ht.th("name"), ht.th("description"))), *trs))
+```
+
+## Resources
+
+* [awesome-gtfs](https://github.com/andredarcie/awesome-gtfs)
+* [python: gtfs-kit](https://github.com/mrcagney/gtfs_kit)
+* [R: tidytransit](https://github.com/r-transit/tidytransit)
+
+Reading:
+
+* [Reece Martin transit blog](https://reecemartin.ca/table-of-contents/)
+
+
+## Potential projects: What could you work on?
+
+| Project Idea | Description |
+| --- | --- |
+| GTFS route timetables | Timetables are an incredible use of tables, with a long history. Let's explore their design with Great Tables (or other tools). |
+| Method for connecting realtime data to stops | GTFS realtime data just says a vehicle's lattitude and longitude. How can we connect that to scheduled stops? |
+| Shiny dashboard for updating GTFS schedules | For updating routes, trips, and stops, etc.. |
+| Shiny dashboard for mapping realtime vehicle positions | Fixing [this shiny app](https://shiny.posit.co/r/gallery/interactive-visualizations/bus-dashboard/). |
+| Metro Transit travel time and passenger count dashboard | Creating reports and dashboards for mapping vehicle data based on stop segments. |
+
+### GTFS route timetables and trip map
+
+Have you seen transit timetables? They are a great example of table design! Join table design wizard and [Great Tables](https://github.com/posit-dev/great-tables) creator Rich Iannone for a deep dive into the design and creation of these beauties:
+
+![A timetable for Septa in Philadelphia's Chesnut Hill West line.](./images/peak-timetable.png){width=50%}
+
+It would be neat to recreate tables like above in Great Tables. For bonus we could create a map of the route and stops (similar to gtfs-to-html).
+
+### Shiny dashboard for updating GTFS schedules
+
+Working on an application to update GTFS schedules is a good way to get a feel for its underlying data model of transit networks. It would be neat to see what a Shiny app, similar to [datatools-ui](https://github.com/ibi-group/datatools-ui) might look like.
+
+### Shiny dashboard for mapping realtime vehicle positions
+
+Uh-oh. Our [bus dashboard](https://shiny.posit.co/r/gallery/interactive-visualizations/bus-dashboard/) showing realtime vehicle positions of some buses in Metro Transit is broken. Can you fix it?!
+
+Here's another example of a bus dashboard:
+
+* https://forum.posit.co/t/dude-wheres-my-bus-2020-shiny-contest-submission/56634
+
+### Methods for connecting realtime data to stops
+
+:::{.callout-note}
+Preparing this potential project is a work in progress. Michael will work on this a bit  to find good work-to-be-done for volunteers before the hackathon.
+:::
+
+Tiffany Ku at Caltrans is working on connecting realtime vehicle data to stops. There is a demo repo here:
+
+* https://github.com/tiffanychu90/gtfs-rt-demo
+
+Key pieces you could work on are detailed in this issue:
+
+* https://github.com/machow/transit-data-analyses/issues/1
+
+### Metro Transit travel time and passenger count dashboard
+
+:::{.callout-note}
+Preparing this potential project is a work in progress. Michael will work on this a bit  to find good work-to-be-done for volunteers before the hackathon.
+:::
+
+
+We'll have vehicle location and passenger count data at the hackathon. Some potential questions folks could answer are:
+
+* Vehicle load mapped by stop-segment
+* Passenger arrival rates for each stop or route-stop (through-out the day, by service type), lots of way to aggregate or slice and dice.
+* Probability of stopping for passenger activity by stop
+* Dwell-time modeling (based on boardings and alightings)
+* Boarding and alighting relative to station area population and job density
