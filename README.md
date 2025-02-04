@@ -168,6 +168,8 @@ Reading:
 
 ### 📰 GTFS route timetables and trip map
 
+See [project-great-tables](./project-great-tables).
+
 Have you seen transit timetables? They are a great example of table
 design! Join table design wizard and [Great
 Tables](https://github.com/posit-dev/great-tables) creator Rich Iannone
@@ -201,10 +203,10 @@ Here’s another example of a bus dashboard:
 
 ### 🧩 Method for connecting realtime data to stops
 
-> ⚠️ Preparing this is a work in progress.
-
 Tiffany Ku at Caltrans is working on connecting realtime vehicle data to
-stops. There is a demo repo here:
+stops. I've put a sample of this project into [the project-rt-stops folder](./project-rt-stops).
+
+There is a demo repo here:
 
 - https://github.com/tiffanychu90/gtfs-rt-demo
 
@@ -214,7 +216,7 @@ Key pieces you could work on are detailed in this issue:
 
 ### 🚍 Metro Transit travel time and passenger count dashboard
 
-> ⚠️ Preparing this is a work in progress.
+See [machow/project-metro-transit](https://github.com/machow/project-metro-transit) for some sample code and data.
 
 We’ll have vehicle location and passenger count data at the hackathon.
 Some potential questions folks could answer are:
