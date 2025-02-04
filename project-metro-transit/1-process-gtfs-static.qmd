@@ -1,0 +1,197 @@
+---
+title: Process GTFS static
+---
+
+
+```{python}
+import polars as pl
+import polars.selectors as cs
+import zipfile
+```
+
+
+## Load from csv and save as parquet
+
+```{python}
+from pathlib import Path
+from datetime import datetime
+import zipfile
+
+
+def load_and_concat(p_zipfiles: list[Path], fname: str = "trips") -> pl.DataFrame:
+    all_data = []
+    for p in p_zipfiles:
+        with zipfile.ZipFile(p) as z:
+            with z.open(f"{fname}.txt") as f:
+                date_part = p.stem
+                all_data.append(
+                    pl.read_csv(f).select(
+                        pl.lit(datetime.strptime(date_part, "%Y-%m-%d").date()).alias(
+                            "feed_date"
+                        ),
+                        cs.all(),
+                    )
+                )
+
+    return pl.concat(all_data, how="diagonal_relaxed")
+
+
+gtfs_zips = list(Path("data/gtfs_schedules").glob("*.zip"))
+
+```
+
+```{python}
+data = {}
+for fname in ["stop_times", "trips", "shapes", "calendar_dates", "calendar", "stops"]:
+    if fname == "stop_times":
+        data[fname] = load_and_concat(gtfs_zips, fname).with_columns(
+            # pl.col(["trip_id", "arrival_time", "departure_time"]).cast(pl.Categorical),
+            cs.ends_with("type").cast(pl.Int8),
+            cs.by_name("stop_id").cast(pl.Int32),
+            pl.col("stop_sequence").cast(pl.Int16),
+            pl.col("timepoint").cast(pl.Int8),
+        )
+    else:
+        data[fname] = load_and_concat(gtfs_zips, fname)
+```
+
+
+```{python}
+PARTITION = ["stop_times", "shapes"]
+
+for k, v in data.items():
+    if k in PARTITION:
+        continue
+    p_data = Path("data/1-gtfs_schedules_combined")
+    p_data.mkdir(exist_ok=True, parents=True)
+    v.write_parquet(p_data / f"{k}.parquet")
+
+for to_partition in PARTITION:
+    data[to_partition].write_parquet(p_data / to_partition, partition_by="feed_date")
+```
+
+## Create Daily service schedule
+
+```{python}
+calendar = data["calendar"]
+calendar_dates = data["calendar_dates"]
+```
+
+```{python}
+def dow_when_then(col_dow: pl.Expr, names: list[str], one_indexed=True):
+    expr = pl
+    for ii, name in enumerate(names):
+        expr = expr.when(col_dow == ii + 1).then(pl.col(name))
+
+    return expr.otherwise(None)
+
+
+# date range from start_date to end_date
+# calc dow for each date
+# unnest with vals in M-Sun set for date and service_id (likely via case_when)
+cleaned_calendar = calendar.with_columns(
+    pl.col(["start_date", "end_date"]).cast(pl.String).str.strptime(pl.Date, "%Y%m%d")
+)
+
+daily_service = (
+    cleaned_calendar.with_columns(
+        service_date=pl.date_ranges(pl.col("start_date"), pl.col("end_date"))
+    )
+    .explode("service_date")
+    .with_columns(
+        is_in_service=dow_when_then(
+            pl.col("service_date").dt.weekday(),
+            [
+                "monday",
+                "tuesday",
+                "wednesday",
+                "thursday",
+                "friday",
+                "saturday",
+                "sunday",
+            ],
+        ).cast(pl.Boolean)
+    )
+)
+
+# exception type 1 is added, 2 is removed
+calendar_dates_clean = calendar_dates.with_columns(
+    service_date=pl.col("date").cast(pl.String).str.strptime(pl.Date, "%Y%m%d"),
+    action=pl.col("exception_type").replace({"1": "add", "2": "remove"}),
+)
+
+tbl_daily_service = (
+    daily_service.join(
+        calendar_dates_clean.select(
+            "feed_date",
+            "service_date",
+            "service_id",
+            "action",
+            from_calendar_dates=pl.lit(True),
+        ),
+        on=["feed_date", "service_date", "service_id"],
+        how="left",
+    )
+    .filter(pl.coalesce(pl.col("action") != "remove", True))
+    .select(
+        "feed_date",
+        "service_date",
+        "service_id",
+        "is_in_service",
+        "from_calendar_dates",
+    )
+)
+
+tbl_daily_service.write_parquet("data/1-daily_service.parquet")
+```
+
+## Daily feed date
+
+```{python}
+tbl_gtfs_trips = data["trips"]
+
+daily_feed_dates = (
+    tbl_gtfs_trips.unique(["feed_date"])
+    .sort("feed_date")
+    .select(pl.col("feed_date"), end_date=pl.col("feed_date").shift(-1))
+    .with_columns(
+        pl.col("end_date").fill_null(pl.col("feed_date") + pl.duration(days=7))
+    )
+    .with_columns(calendar_date=pl.date_ranges("feed_date", "end_date"))
+    .explode("calendar_date")
+)
+
+daily_feed_dates.write_parquet("data/1-daily_feed_dates.parquet")
+```
+
+## GTFS Trip Shapes
+
+Turns shapes.txt into a linestring per shape_id
+
+
+```{python}
+from shapely import LineString
+import polars_st as st
+
+tbl_shapes = data["shapes"]
+
+gtfs_trip_shapes = (
+    tbl_shapes.select(
+        "shape_id",
+        pl.all().exclude("shape_id").shrink_dtype(),
+    )
+    .group_by("feed_date", "shape_id")
+    .agg(shape_lon_lat=pl.concat_arr("shape_pt_lon", "shape_pt_lat"))
+    .with_columns(
+        geometry=pl.col("shape_lon_lat").map_elements(
+            lambda x: LineString(x).wkb,
+            return_dtype=pl.Binary(),
+        )
+    )
+    .with_columns(pl.col("geometry").st.set_srid(4326))
+)
+
+gtfs_trip_shapes.drop("shape_lon_lat").write_parquet(
+    "data/1-gtfs_trip_shapes", partition_by="feed_date"
+)
+```

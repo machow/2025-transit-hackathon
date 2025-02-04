@@ -1,0 +1,47 @@
+---
+title: Fetch historical GTFS schedules
+---
+
+* https://svc.metrotransit.org/
+* These files update every saturday, starting on 2020-11-28
+
+```{python}
+import hashlib
+import requests
+import time
+from datetime import date, timedelta
+from pathlib import Path
+
+GTFS_URL = "https://svc.metrotransit.org/mtgtfs/archive/gtfs{yyyyMMdd}.zip"
+OUT_DIR = Path("data/gtfs_schedules")
+
+date_start = date(2020, 11, 28)
+n_weeks = (date.today() - date_start).days // 7
+d7 = timedelta(days=7)
+
+date_range = [date_start + timedelta(days=7 * ii) for ii in range(n_weeks + 1)]
+```
+
+```{python}
+OUT_DIR.mkdir(exist_ok=True, parents=True)
+
+# No 2023-12-30 found in feed
+# Also no 2024-12-28 etc..
+prev_md5 = None
+for crnt_date in date_range:
+    # NOTE: uncomment to only fetch the few latest
+    # if crnt_date < date(2025, 1, 10):
+    #     continue
+
+    # fetch schedule ----
+    url = GTFS_URL.format(yyyyMMdd=crnt_date.strftime("%Y%m%d"))
+    print(f"Fetching {url}")
+    r = requests.get(url)
+    r.raise_for_status()
+
+    # save schedule ----
+    fname_out = OUT_DIR / f"{crnt_date.strftime('%Y-%m-%d')}.zip"
+    with open(fname_out, "wb") as f:
+        f.write(r.content)
+    time.sleep(1)
+```
