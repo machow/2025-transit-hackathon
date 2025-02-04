@@ -1,0 +1,25 @@
+[project]
+name = "data-analyses-transit"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "geopandas>=1.0.1",
+    "great-tables>=0.14.0",
+    "jupyter>=1.1.1",
+    "plotnine>=0.14.5",
+    "polars>=1.17.1",
+    "polars-st>=0.1.0a10",
+    "pyarrow>=18.1.0",
+    "pyjanitor>=0.30.0",
+    "shapely>=2.0.7",
+]
+
+[tool.uv.workspace]
+members = ["_utils/ndjson_scd"]
+
+[dependency-groups]
+dev = [
+    "jupyter>=1.1.1",
+]
